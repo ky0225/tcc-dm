@@ -1,0 +1,35 @@
+version: '3.5'
+services:
+  web:
+    build: ./docker_centos
+    hostname: ryutoen-web-server
+    container_name: ryutoen-web-container
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+    - "80:80"
+#    - "443:443"
+#    - "25:25"
+    restart: always
+    volumes:
+    - ../:/var/www/app
+    privileged: true
+    entrypoint: ["/usr/sbin/init"]
+
+  db:
+    build: ./docker_mysql
+    hostname: ryutoen-db-server
+    container_name: ryutoen-db-container
+    ports:
+    - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: ryutoen
+      MYSQL_USER: app
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Tokyo
+    volumes:
+      - ./docker_mysql/initdb:/docker-entrypoint-initdb.d
+      - ../db:/var/lib/mysql
+    privileged: true
