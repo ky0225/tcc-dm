@@ -1,15 +1,13 @@
 version: '3.5'
 services:
   web:
-    build: ./docker_centos
-    hostname: ryutoen-web-server
-    container_name: ryutoen-web-container
+    build: ./docker_alma
+    hostname: tcc-dm-web-server
+    container_name: tcc-dm-web-container
     environment:
       TZ: Asia/Tokyo
     ports:
     - "80:80"
-#    - "443:443"
-#    - "25:25"
     restart: always
     volumes:
     - ../:/var/www/app
@@ -18,13 +16,13 @@ services:
 
   db:
     build: ./docker_mysql
-    hostname: ryutoen-db-server
-    container_name: ryutoen-db-container
+    hostname: tcc-dm-db-server
+    container_name: tcc-dm-db-container
     ports:
     - "3306:3306"
     restart: always
     environment:
-      MYSQL_DATABASE: ryutoen
+      MYSQL_DATABASE: tcc-dm
       MYSQL_USER: app
       MYSQL_PASSWORD: 123456
       MYSQL_ROOT_PASSWORD: 123456
