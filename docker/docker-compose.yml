@@ -1,0 +1,48 @@
+version: '3.5'
+services:
+  web:
+    build: ./docker_alma
+    hostname: tcc-dm-web-server
+    container_name: tcc-dm-web-container
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+    - "80:80"
+    restart: always
+    volumes:
+    - ../:/var/www/app
+    privileged: true
+    entrypoint: ["/usr/sbin/init"]
+
+  db:
+    build: ./docker_mysql
+    hostname: tcc-dm-db-server
+    container_name: tcc-dm-db-container
+    ports:
+    - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: tcc-dm
+      MYSQL_USER: app
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Tokyo
+    volumes:
+      - ./docker_mysql/initdb:/docker-entrypoint-initdb.d
+      - ../db:/var/lib/mysql
+    privileged: true
+
+  phpmyadmin:
+      # Docker Hubからイメージをダウンロード
+      image: phpmyadmin/phpmyadmin:5
+      # コンテナの名前
+      container_name: tcc-dm-phpmyadmin-container
+      # コンテナと他のサービスを繋げる
+      links:
+          - db
+      # localhost:8080 で phpmyadmin の管理画面にアクセス
+      ports:
+          - 8080:80
+      # セッション情報をボリュームに設定して永続化
+      volumes:
+          - ./docker_phpmyadmin/sessions:/sessions
