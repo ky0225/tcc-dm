@@ -31,3 +31,18 @@ services:
       - ./docker_mysql/initdb:/docker-entrypoint-initdb.d
       - ../db:/var/lib/mysql
     privileged: true
+
+  phpmyadmin:
+      # Docker Hubからイメージをダウンロード
+      image: phpmyadmin/phpmyadmin:5
+      # コンテナの名前
+      container_name: tcc-dm-phpmyadmin-container
+      # コンテナと他のサービスを繋げる
+      links:
+          - db
+      # localhost:8080 で phpmyadmin の管理画面にアクセス
+      ports:
+          - 8080:80
+      # セッション情報をボリュームに設定して永続化
+      volumes:
+          - ./docker_phpmyadmin/sessions:/sessions
