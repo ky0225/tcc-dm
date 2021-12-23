@@ -15,3 +15,20 @@
 ### マウントポイント
 * web-container : プロジェクト内の全ファイルがコンテナ内の/var/www/app/にマウントされている。
 * db-container : ../dbにコンテナ内のDBがマウントされている。
+
+## 開発環境について
+
+### OS
+AlmaLinux: 8.0
+
+### Webサーバー
+Apache: 2.4
+
+### Database
+MySQL: 5.7
+
+### 開発言語
+PHP: 8.1
+
+### フレームワーク
+Laravel: 8.7
